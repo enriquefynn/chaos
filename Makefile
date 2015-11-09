@@ -11,7 +11,7 @@ bin/mem_speed_random bin/block_mem bin/zpipe bin/feeder bin/slipbench\
 bin/fanout_test
 
 
-all: $(OBJECT_DIR) $(LIBS) $(TARGETS) generators
+all: MK_DIRS $(LIBS) $(TARGETS) generators
 
 CXX?= g++
 
@@ -38,7 +38,7 @@ CXXFLAGS += -msse4.2
 #System libraries
 SYSLIBS = -lboost_system -lboost_program_options -lboost_thread -lpthread -lz -lrt -lzmq
 # Uncomment for ALS
-SYSLIBS += -llapack
+#SYSLIBS += -llapack
 
 #Uncomment if you want low latency control messages
 #CXXFLAGS += -DLOW_LATENCY_CONTROL
@@ -57,8 +57,9 @@ SYSLIBS += -llapack
 
 -include $(LIBS:.o=.d) $(PROGS:.o=.d) 
 
-$(OBJECT_DIR):
+MK_DIRS:
 	mkdir -p $(OBJECT_DIR)
+	mkdir -p bin
 
 $(OBJECT_DIR)/core.o:core/core.cpp 
 	$(CXX) $(CXXFLAGS) $(EXTRA_INCLUDES) -c -o $@ $<
@@ -139,7 +140,7 @@ clean:
 	rm -f $(TARGETS) $(LIBS) $(OBJECT_DIR)/*
 	$(MAKE) -C generators clean
 
-prefix = ~
+prefix = /usr/local
 bindir = $(prefix)/bin
 .PHONY: install uninstall
 install: all
