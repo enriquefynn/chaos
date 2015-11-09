@@ -11,7 +11,7 @@ bin/mem_speed_random bin/block_mem bin/zpipe bin/feeder bin/slipbench\
 bin/fanout_test
 
 
-all: $(LIBS) $(TARGETS) generators
+all: $(OBJECT_DIR) $(LIBS) $(TARGETS) generators
 
 CXX?= g++
 
@@ -56,6 +56,9 @@ SYSLIBS += -llapack
 
 
 -include $(LIBS:.o=.d) $(PROGS:.o=.d) 
+
+$(OBJECT_DIR):
+	mkdir -p $(OBJECT_DIR)
 
 $(OBJECT_DIR)/core.o:core/core.cpp 
 	$(CXX) $(CXXFLAGS) $(EXTRA_INCLUDES) -c -o $@ $<
