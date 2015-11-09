@@ -197,7 +197,7 @@ thread_buffer* buffer_manager::get_buffer(const threadid_t tid)
 io_thread_func::io_thread_func(const char* filename, const edge_t nedges, buffer_queue* pflushq, buffer_manager* pmanager, const size_t buffer_size)
   : m_pflushq(pflushq), m_pmanager(pmanager), m_remainder(buffer_size, 0), m_stop(false)
 {
-  m_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_DIRECT | O_SYNC, 0666);
+  m_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC |  O_SYNC, 0666);
   if (m_fd == -1) {
     fprintf(stderr, "Error: open call failed with errno %d\n", errno);
     exit(1);
